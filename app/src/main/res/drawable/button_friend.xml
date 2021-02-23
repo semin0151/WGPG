@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true"
+        android:drawable="@drawable/friend_clicked">
+        <size
+            android:width = "70dp"
+            android:height = "70dp"/>
+
+    </item>
+    <item android:drawable="@drawable/friend">
+        <size
+            android:width = "70dp"
+            android:height = "70dp"/>
+    </item>
+</selector>
