@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="기간 : "
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tv_activity_period"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="2020.02 ~ 2020.12"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="구분 : "
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tv_activity_category"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="교내활동"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="기관/장소 : "
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tv_activity_organ"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="한국산업기술대학교"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="내용 : "
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tv_activity_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="학습동아리 CP-CoP 활동 참여"/>
+    </LinearLayout>
+
+
+</LinearLayout>
