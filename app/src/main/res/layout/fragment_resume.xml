@@ -1,142 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="기본 정보"
-        android:textSize="25dp"/>
-    <ImageView
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#aaaaaa"/>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="이름 : "/>
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:background="#eeeeee"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="생년월일 : "/>
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:background="#eeeeee"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="주소 : "/>
+            android:text="기본 정보"
+            android:textSize="25dp"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#aaaaaa"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_margin="10dp">
             <TextView
-                android:layout_width="300dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#eeeeee"
-                android:layout_marginBottom="5dp"/>
+                android:text="이름 : "/>
             <TextView
-                android:layout_width="300dp"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="#eeeeee"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="생년월일 : "/>
+            <TextView
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:background="#eeeeee"/>
         </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="주소 : "/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:background="#eeeeee"
+                    android:layout_marginBottom="5dp"/>
+                <TextView
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:background="#eeeeee"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="전화번호 : "/>
+            <TextView
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:background="#eeeeee"/>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#aaaaaa"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="전화번호 : "/>
+            android:text="대외 활동"
+            android:textSize="25dp"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#aaaaaa"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#aaaaaa"/>
         <TextView
-            android:layout_width="140dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#eeeeee"/>
+            android:text="자격증/어학/수상내역"
+            android:textSize="25dp"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#aaaaaa"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_award"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#aaaaaa"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="보유 기술"
+            android:textSize="25dp"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#aaaaaa"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_skill"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btn_modify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="수정"
+            android:layout_gravity="center"/>
+
     </LinearLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#aaaaaa"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="대외 활동"
-        android:textSize="25dp"/>
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#aaaaaa"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_activity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#aaaaaa"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="자격증/어학/수상내역"
-        android:textSize="25dp"/>
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#aaaaaa"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_award"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#aaaaaa"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="보유 기술"
-        android:textSize="25dp"/>
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#aaaaaa"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_skill"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/btn_modify"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="수정"
-        android:layout_gravity="center"/>
-
-</LinearLayout>
+</ScrollView>

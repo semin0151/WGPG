@@ -27,12 +27,14 @@
 
     </LinearLayout>
     <TextView
-        android:id="@+id/skill_content"
+        android:id="@+id/tv_skill_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="-UI 구성, Fragments, 비동기 프로그래밍, Retrofit을 활용한 OpenAPI 사용을 할 수 있습니다."
         />
-
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#aaaaaa"/>
 
 </LinearLayout>
