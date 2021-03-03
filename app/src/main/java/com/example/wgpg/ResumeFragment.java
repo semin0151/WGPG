@@ -1,5 +1,7 @@
 package com.example.wgpg;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -23,6 +25,12 @@ public class ResumeFragment extends Fragment {
     private View view;
     private Button btn_modify;
 
+    private TextView tv_name_resume;
+    private TextView tv_date_resume;
+    private TextView tv_address1_resume;
+    private TextView tv_address2_resume;
+    private TextView tv_phone_resume;
+
     private Fragment fragment;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
@@ -36,6 +44,9 @@ public class ResumeFragment extends Fragment {
     private RecyclerSkillAdapter adapter_skill;
 
     private SQLiteDatabase sqliteDB;
+    private SharedPreferences sharedPreferences;
+
+    private String name, date, address1, address2, phone;
 
     public ResumeFragment(){
 
@@ -45,10 +56,16 @@ public class ResumeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_resume,container, false);
-        btn_modify = (Button)view.findViewById(R.id.btn_modify);
-        rv_activity = (RecyclerView)view.findViewById(R.id.rv_activity);
-        rv_award = (RecyclerView)view.findViewById(R.id.rv_award);
-        rv_skill = (RecyclerView)view.findViewById(R.id.rv_skill);
+
+        btn_modify      = (Button)view.findViewById(R.id.btn_modify);
+        rv_activity     = (RecyclerView)view.findViewById(R.id.rv_activity);
+        rv_award        = (RecyclerView)view.findViewById(R.id.rv_award);
+        rv_skill        = (RecyclerView)view.findViewById(R.id.rv_skill);
+        tv_name_resume  = (TextView)view.findViewById(R.id.tv_name_resume);
+        tv_date_resume  = (TextView)view.findViewById(R.id.tv_date_resume);
+        tv_address1_resume = (TextView)view.findViewById(R.id.tv_address1_resume);
+        tv_address2_resume = (TextView)view.findViewById(R.id.tv_address2_resume);
+        tv_phone_resume = (TextView)view.findViewById(R.id.tv_phone_resume);
 
         sqliteDB = init_DB();
 
@@ -57,7 +74,15 @@ public class ResumeFragment extends Fragment {
         init_rv();
         load_values();
 
+        pop_shared();
+
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        push_shared();
     }
 
     public void btn_clicked(){
@@ -138,29 +163,56 @@ public class ResumeFragment extends Fragment {
             cursor_skill = sqliteDB.rawQuery("SELECT * FROM SKILL", null);
 
             while(cursor_activity.moveToNext()){
-
                 adapter_activity.addItem(cursor_activity.getString(0),
                         cursor_activity.getString(1),
                         cursor_activity.getString(2),
                         cursor_activity.getString(3));
-
             }
             while(cursor_award.moveToNext()){
-
                 adapter_award.addItem(cursor_award.getString(0),
                         cursor_award.getString(1),
                         cursor_award.getString(2),
                         cursor_award.getString(3),
                         cursor_award.getString(4));
-
             }
             while(cursor_skill.moveToNext()){
-
                 adapter_skill.addItem(cursor_skill.getString(0),
                         cursor_skill.getString(1),
                         cursor_skill.getString(2));
-
             }
         }
+    }
+
+    private void push_shared(){
+        sharedPreferences = getActivity().getSharedPreferences("", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        name = tv_name_resume.getText().toString();
+        date = tv_date_resume.getText().toString();
+        address1 = tv_address1_resume.getText().toString();
+        address2 = tv_address2_resume.getText().toString();
+        phone = tv_phone_resume.getText().toString();
+
+        editor.putString("name",name);
+        editor.putString("date",date);
+        editor.putString("address1",address1);
+        editor.putString("address2",address2);
+        editor.putString("phone",phone);
+        editor.commit();
+    }
+
+    private void pop_shared(){
+        sharedPreferences = getActivity().getSharedPreferences("", Context.MODE_PRIVATE);
+
+        name = sharedPreferences.getString("name",name);
+        date = sharedPreferences.getString("date",date);
+        address1 = sharedPreferences.getString("address1",address1);
+        address2 = sharedPreferences.getString("address2",address2);
+        phone = sharedPreferences.getString("phone",phone);
+
+        tv_name_resume.setText(name);
+        tv_date_resume.setText(date);
+        tv_address1_resume.setText(address1);
+        tv_address2_resume.setText(address2);
+        tv_phone_resume.setText(phone);
     }
 }

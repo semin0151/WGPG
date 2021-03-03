@@ -27,19 +27,27 @@ public class MemoFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_memo, container,false);
         et_memo = (EditText)view.findViewById(R.id.et_memo);
 
-        sharedPreferences = getActivity().getSharedPreferences("", Context.MODE_PRIVATE);
-        str = sharedPreferences.getString("str", "");
-        et_memo.setText(str);
+        pop_shared();
         return view;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        push_shared();
+    }
+
+    private void push_shared(){
         sharedPreferences = getActivity().getSharedPreferences("", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         str = et_memo.getText().toString();
         editor.putString("str",str);
         editor.commit();
+    }
+
+    private void pop_shared(){
+        sharedPreferences = getActivity().getSharedPreferences("", Context.MODE_PRIVATE);
+        str = sharedPreferences.getString("str", "");
+        et_memo.setText(str);
     }
 }

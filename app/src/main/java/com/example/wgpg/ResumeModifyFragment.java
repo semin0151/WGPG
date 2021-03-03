@@ -1,5 +1,8 @@
 package com.example.wgpg;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,6 +27,12 @@ public class ResumeModifyFragment extends Fragment {
     private Button btn_add_activity;
     private Button btn_add_award;
     private Button btn_add_skill;
+
+    private EditText et_name;
+    private EditText et_date;
+    private EditText et_address1;
+    private EditText et_address2;
+    private EditText et_phone;
 
     private EditText et_activity_period;
     private EditText et_activity_category;
@@ -51,6 +60,9 @@ public class ResumeModifyFragment extends Fragment {
     private FragmentTransaction fragmentTransaction;
 
     private SQLiteDatabase sqliteDB;
+    private SharedPreferences sharedPreferences;
+
+    private String name, date, address1, address2, phone;
 
     public ResumeModifyFragment(){
 
@@ -60,24 +72,29 @@ public class ResumeModifyFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_resume_modify,container, false);
-        /*
+
         rv_activity = (RecyclerView)view.findViewById(R.id.rv_activity);
         rv_award = (RecyclerView)view.findViewById(R.id.rv_award);
         rv_skill = (RecyclerView)view.findViewById(R.id.rv_skill);
-*/
+
         init_view();
         sqliteDB = init_DB();
+
         btn_clicked();
-
-        sqliteDB.execSQL("DELETE FROM ACTIVITY");
-        sqliteDB.execSQL("DELETE FROM AWARD");
-        sqliteDB.execSQL("DELETE FROM SKILL");
-
         init_tables();
-        //init_rv();
+        init_rv();
         save_values();
+        load_values();
+
+        pop_shared();
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        push_shared();
     }
 
     public void btn_clicked(){
@@ -94,22 +111,27 @@ public class ResumeModifyFragment extends Fragment {
     }
 
     private void init_view(){
-        btn_save = (Button)view.findViewById(R.id.btn_save);
-        btn_add_activity = (Button)view.findViewById(R.id.btn_add_activity);
-        btn_add_award = (Button)view.findViewById(R.id.btn_add_award);
-        btn_add_skill = (Button)view.findViewById(R.id.btn_add_skill);
-        et_activity_period = (EditText)view.findViewById(R.id.et_activity_period);
-        et_activity_category = (EditText)view.findViewById(R.id.et_activity_category);
-        et_activity_organ = (EditText)view.findViewById(R.id.et_activity_organ);
-        et_activity_content = (EditText)view.findViewById(R.id.et_activity_content);
-        et_award_date = (EditText)view.findViewById(R.id.et_award_date);
-        et_award_category = (EditText)view.findViewById(R.id.et_award_category);
-        et_award_organ = (EditText)view.findViewById(R.id.et_award_organ);
-        et_award_language = (EditText)view.findViewById(R.id.et_award_language);
-        et_award_point = (EditText)view.findViewById(R.id.et_award_point);
-        et_skill = (EditText)view.findViewById(R.id.et_skill);
-        et_skill_level = (EditText)view.findViewById(R.id.et_skill_level);
-        et_skill_content = (EditText)view.findViewById(R.id.et_skill_content);
+        btn_save                = (Button)view.findViewById(R.id.btn_save);
+        btn_add_activity        = (Button)view.findViewById(R.id.btn_add_activity);
+        btn_add_award           = (Button)view.findViewById(R.id.btn_add_award);
+        btn_add_skill           = (Button)view.findViewById(R.id.btn_add_skill);
+        et_activity_period      = (EditText)view.findViewById(R.id.et_activity_period);
+        et_activity_category    = (EditText)view.findViewById(R.id.et_activity_category);
+        et_activity_organ       = (EditText)view.findViewById(R.id.et_activity_organ);
+        et_activity_content     = (EditText)view.findViewById(R.id.et_activity_content);
+        et_award_date           = (EditText)view.findViewById(R.id.et_award_date);
+        et_award_category       = (EditText)view.findViewById(R.id.et_award_category);
+        et_award_organ          = (EditText)view.findViewById(R.id.et_award_organ);
+        et_award_language       = (EditText)view.findViewById(R.id.et_award_language);
+        et_award_point          = (EditText)view.findViewById(R.id.et_award_point);
+        et_skill                = (EditText)view.findViewById(R.id.et_skill);
+        et_skill_level          = (EditText)view.findViewById(R.id.et_skill_level);
+        et_skill_content        = (EditText)view.findViewById(R.id.et_skill_content);
+        et_name                 = (EditText)view.findViewById(R.id.et_name);
+        et_date                 = (EditText)view.findViewById(R.id.et_date);
+        et_address1             = (EditText)view.findViewById(R.id.et_address1);
+        et_address2             = (EditText)view.findViewById(R.id.et_address2);
+        et_phone                = (EditText)view.findViewById(R.id.et_phone);
     }
 
     private SQLiteDatabase init_DB(){
@@ -153,21 +175,21 @@ public class ResumeModifyFragment extends Fragment {
             sqliteDB.execSQL(sqlCreateTbl);
         }
     }
-/*
+
     private void init_rv(){
         rv_activity.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv_award.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv_skill.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        adapter_activity = new RecyclerActivityAdapter();
-        adapter_award = new RecyclerAwardAdapter();
-        adapter_skill = new RecyclerSkillAdapter();
+        adapter_activity = new RecyclerActivityAdapter(sqliteDB);
+        adapter_award = new RecyclerAwardAdapter(sqliteDB);
+        adapter_skill = new RecyclerSkillAdapter(sqliteDB);
 
         rv_activity.setAdapter(adapter_activity);
         rv_award.setAdapter(adapter_award);
         rv_skill.setAdapter(adapter_skill);
     }
-*/
+
     private void save_values(){
             btn_add_activity.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -184,6 +206,8 @@ public class ResumeModifyFragment extends Fragment {
                     et_activity_category.setText("");
                     et_activity_organ.setText("");
                     et_activity_content.setText("");
+                    init_rv();
+                    load_values();
                 }
             });
 
@@ -204,6 +228,8 @@ public class ResumeModifyFragment extends Fragment {
                     et_award_organ.setText("");
                     et_award_language.setText("");
                     et_award_point.setText("");
+                    init_rv();
+                    load_values();
                 }
             });
 
@@ -220,7 +246,70 @@ public class ResumeModifyFragment extends Fragment {
                     et_skill.setText("");
                     et_skill_level.setText("");
                     et_skill_content.setText("");
+                    init_rv();
+                    load_values();
                 }
             });
+    }
+
+    private void load_values(){
+        if(sqliteDB != null){
+            Cursor cursor_activity = null, cursor_award = null, cursor_skill = null;
+            cursor_activity = sqliteDB.rawQuery("SELECT * FROM ACTIVITY", null);
+            cursor_award = sqliteDB.rawQuery("SELECT * FROM AWARD", null);
+            cursor_skill = sqliteDB.rawQuery("SELECT * FROM SKILL", null);
+
+            while(cursor_activity.moveToNext()){
+                adapter_activity.addItem(cursor_activity.getString(0),
+                        cursor_activity.getString(1),
+                        cursor_activity.getString(2),
+                        cursor_activity.getString(3));
+            }
+            while(cursor_award.moveToNext()){
+                adapter_award.addItem(cursor_award.getString(0),
+                        cursor_award.getString(1),
+                        cursor_award.getString(2),
+                        cursor_award.getString(3),
+                        cursor_award.getString(4));
+            }
+            while(cursor_skill.moveToNext()){
+                adapter_skill.addItem(cursor_skill.getString(0),
+                        cursor_skill.getString(1),
+                        cursor_skill.getString(2));
+            }
+        }
+    }
+
+    private void push_shared(){
+        sharedPreferences = getActivity().getSharedPreferences("", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        name = et_name.getText().toString();
+        date = et_date.getText().toString();
+        address1 = et_address1.getText().toString();
+        address2 = et_address2.getText().toString();
+        phone = et_phone.getText().toString();
+
+        editor.putString("name",name);
+        editor.putString("date",date);
+        editor.putString("address1",address1);
+        editor.putString("address2",address2);
+        editor.putString("phone",phone);
+        editor.commit();
+    }
+
+    private void pop_shared(){
+        sharedPreferences = getActivity().getSharedPreferences("", Context.MODE_PRIVATE);
+
+        name = sharedPreferences.getString("name",name);
+        date = sharedPreferences.getString("date",date);
+        address1 = sharedPreferences.getString("address1",address1);
+        address2 = sharedPreferences.getString("address2",address2);
+        phone = sharedPreferences.getString("phone",phone);
+
+        et_name.setText(name);
+        et_date.setText(date);
+        et_address1.setText(address1);
+        et_address2.setText(address2);
+        et_phone.setText(phone);
     }
 }

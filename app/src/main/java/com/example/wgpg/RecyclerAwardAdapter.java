@@ -1,6 +1,7 @@
 package com.example.wgpg;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,17 @@ import java.util.ArrayList;
 
 public class RecyclerAwardAdapter extends RecyclerView.Adapter<RecyclerAwardAdapter.ViewHolder>{
     private ArrayList<RecyclerAwardItem> lists = new ArrayList<>();
+    private SQLiteDatabase sqliteDB;
+    private boolean modify;
+
+    RecyclerAwardAdapter(){
+        modify = false;
+    }
+
+    RecyclerAwardAdapter(SQLiteDatabase db){
+        modify = true;
+        this.sqliteDB = db;
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView tv_award_date;
@@ -50,6 +62,17 @@ public class RecyclerAwardAdapter extends RecyclerView.Adapter<RecyclerAwardAdap
         holder.tv_award_organ.setText(item.getOrgan());
         holder.tv_award_language.setText(item.getLanguage());
         holder.tv_award_point.setText(item.getPoint());
+
+        if(modify) {
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    sqliteDB.execSQL("DELETE FROM AWARD WHERE LANGUAGE = '" + lists.get(holder.getAdapterPosition()).getLanguage() + "'");
+                    delItem(holder.getAdapterPosition());
+                    return true;
+                }
+            });
+        }
     }
 
     @Override
@@ -69,5 +92,12 @@ public class RecyclerAwardAdapter extends RecyclerView.Adapter<RecyclerAwardAdap
         lists.add(item);
     }
 
-
+    public void delItem(int position){
+        try{
+            lists.remove(position);
+            notifyItemRemoved(position);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

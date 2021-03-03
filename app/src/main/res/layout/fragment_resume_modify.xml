@@ -26,17 +26,17 @@
                 android:layout_height="wrap_content"
                 android:text="이름 : "/>
             <EditText
+                android:id="@+id/et_name"
                 android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:background="#eeeeee"/>
+                android:layout_height="wrap_content"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="생년월일 : "/>
             <EditText
+                android:id="@+id/et_date"
                 android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:background="#eeeeee"/>
+                android:layout_height="wrap_content"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -52,14 +52,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <EditText
+                    android:id="@+id/et_address1"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:background="#eeeeee"
                     android:layout_marginBottom="5dp"/>
                 <EditText
+                    android:id="@+id/et_address2"
                     android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:background="#eeeeee"/>
+                    android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
@@ -71,9 +71,9 @@
                 android:layout_height="wrap_content"
                 android:text="전화번호 : "/>
             <EditText
+                android:id="@+id/et_phone"
                 android:layout_width="140dp"
-                android:layout_height="wrap_content"
-                android:background="#eeeeee"/>
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     <!--    대외 활동-->
         <ImageView
@@ -103,8 +103,7 @@
                 android:id="@+id/et_activity_period"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:background="#eeeeee"/>
+                android:layout_height="wrap_content"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -114,8 +113,7 @@
                 android:id="@+id/et_activity_category"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:background="#eeeeee"/>
+                android:layout_height="wrap_content"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -129,8 +127,7 @@
             <EditText
                 android:id="@+id/et_activity_organ"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:background="#eeeeee"/>
+                android:layout_height="wrap_content"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -145,8 +142,7 @@
                 android:id="@+id/et_activity_content"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:background="#eeeeee"/>
+                android:layout_height="wrap_content"/>
         </LinearLayout>
         <Button
             android:id="@+id/btn_add_activity"
@@ -186,8 +182,7 @@
                 android:id="@+id/et_award_date"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:background="#eeeeee"/>
+                android:layout_height="wrap_content"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -197,8 +192,7 @@
                 android:id="@+id/et_award_category"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:background="#eeeeee"/>
+                android:layout_height="wrap_content" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -212,8 +206,7 @@
             <EditText
                 android:id="@+id/et_award_organ"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:background="#eeeeee"/>
+                android:layout_height="wrap_content"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -227,8 +220,7 @@
             <EditText
                 android:id="@+id/et_award_language"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:background="#eeeeee"/>
+                android:layout_height="wrap_content"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -242,8 +234,7 @@
             <EditText
                 android:id="@+id/et_award_point"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:background="#eeeeee"/>
+                android:layout_height="wrap_content"/>
         </LinearLayout>
         <Button
             android:id="@+id/btn_add_award"

@@ -1,6 +1,7 @@
 package com.example.wgpg;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,17 @@ import java.util.ArrayList;
 
 public class RecyclerActivityAdapter extends RecyclerView.Adapter<RecyclerActivityAdapter.ViewHolder>{
     private ArrayList<RecyclerActivityItem> lists = new ArrayList<>();
+    private SQLiteDatabase sqliteDB;
+    private boolean modify;
+
+    RecyclerActivityAdapter(){
+        modify = false;
+    }
+
+    RecyclerActivityAdapter(SQLiteDatabase db){
+        modify = true;
+        this.sqliteDB = db;
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView tv_activity_period;
@@ -27,6 +39,7 @@ public class RecyclerActivityAdapter extends RecyclerView.Adapter<RecyclerActivi
             tv_activity_category = (TextView)itemView.findViewById(R.id.tv_activity_category);
             tv_activity_organ = (TextView)itemView.findViewById(R.id.tv_activity_organ);
             tv_activity_content = (TextView)itemView.findViewById(R.id.tv_activity_content);
+
         }
     }
 
@@ -48,6 +61,17 @@ public class RecyclerActivityAdapter extends RecyclerView.Adapter<RecyclerActivi
         holder.tv_activity_category.setText(item.getCategory());
         holder.tv_activity_organ.setText(item.getOrgan());
         holder.tv_activity_content.setText(item.getContent());
+
+        if(modify) {
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    sqliteDB.execSQL("DELETE FROM ACTIVITY WHERE LEVEL = '" + lists.get(holder.getAdapterPosition()).getContent() + "'");
+                    delItem(holder.getAdapterPosition());
+                    return true;
+                }
+            });
+        }
     }
 
     @Override
@@ -64,5 +88,14 @@ public class RecyclerActivityAdapter extends RecyclerView.Adapter<RecyclerActivi
         item.setContent(content);
 
         lists.add(item);
+    }
+
+    public void delItem(int position){
+        try{
+            lists.remove(position);
+            notifyItemRemoved(position);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

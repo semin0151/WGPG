@@ -1,6 +1,7 @@
 package com.example.wgpg;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,17 @@ import java.util.ArrayList;
 
 public class RecyclerSkillAdapter extends RecyclerView .Adapter<RecyclerSkillAdapter.ViewHolder>{
     private ArrayList<RecyclerSkillItem> lists = new ArrayList<>();
+    private SQLiteDatabase sqliteDB;
+    private boolean modify;
+
+    RecyclerSkillAdapter(){
+        modify = false;
+    }
+
+    RecyclerSkillAdapter(SQLiteDatabase db){
+        modify = true;
+        this.sqliteDB = db;
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView tv_skill;
@@ -44,6 +56,17 @@ public class RecyclerSkillAdapter extends RecyclerView .Adapter<RecyclerSkillAda
         holder.tv_skill.setText(item.getSkill());
         holder.tv_skill_level.setText(item.getLevel());
         holder.tv_skill_content.setText(item.getContent());
+
+        if(modify) {
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    sqliteDB.execSQL("DELETE FROM SKILL WHERE SKILL = '" + lists.get(holder.getAdapterPosition()).getSkill() + "'");
+                    delItem(holder.getAdapterPosition());
+                    return true;
+                }
+            });
+        }
     }
 
     @Override
@@ -56,8 +79,17 @@ public class RecyclerSkillAdapter extends RecyclerView .Adapter<RecyclerSkillAda
 
         item.setSkill(skill);
         item.setLevel(level);
-        item.setContent(level);
+        item.setContent(content);
 
         lists.add(item);
+    }
+
+    public void delItem(int position){
+        try{
+            lists.remove(position);
+            notifyItemRemoved(position);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
