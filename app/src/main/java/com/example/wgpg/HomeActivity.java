@@ -15,6 +15,7 @@ public class HomeActivity extends AppCompatActivity {
     private Fragment fragment;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
+
     private Button btn_resume;
     private Button btn_friend;
     private Button btn_home;

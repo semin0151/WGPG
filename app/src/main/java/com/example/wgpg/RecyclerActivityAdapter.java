@@ -66,7 +66,7 @@ public class RecyclerActivityAdapter extends RecyclerView.Adapter<RecyclerActivi
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    sqliteDB.execSQL("DELETE FROM ACTIVITY WHERE LEVEL = '" + lists.get(holder.getAdapterPosition()).getContent() + "'");
+                    sqliteDB.execSQL("DELETE FROM ACTIVITY WHERE CONTENT = '" + lists.get(holder.getAdapterPosition()).getContent() + "'");
                     delItem(holder.getAdapterPosition());
                     return true;
                 }
