@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,19 +26,19 @@ import androidx.fragment.app.FragmentTransaction;
 
 import java.io.InputStream;
 
-public class HomeFragment extends Fragment {
+public class HomeModifyFragment extends Fragment {
     private View view;
 
-    private Button btn_home_modify;
+    private Button btn_home_save;
+
+    private EditText et_home_name;
+    private EditText et_home_infs;
+    private EditText et_home_content;
 
     private ImageView iv_profile;
     private ImageView iv_link1;
     private ImageView iv_link2;
     private ImageView iv_link3;
-
-    private TextView tv_home_name;
-    private TextView tv_home_infs;
-    private TextView tv_home_content;
 
     private Fragment fragment;
     private FragmentManager fragmentManager;
@@ -45,17 +46,17 @@ public class HomeFragment extends Fragment {
 
     private SharedPreferences sharedPreferences;
 
-    private String name = "", infs = "", content = "";
+    private String name, infs, content;
     private boolean profile = false, link1 = false, link2 = false, link3 = false;
 
-    public HomeFragment() {
+    public HomeModifyFragment() {
 
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_home, container, false);
+        view = inflater.inflate(R.layout.fragment_home_modify, container, false);
 
         init_view();
 
@@ -66,36 +67,31 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        push_shared();
-    }
-
     private void btn_clicked(){
-        btn_home_modify.setOnClickListener(new View.OnClickListener() {
+        btn_home_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment = new HomeModifyFragment();
+                fragment = new HomeFragment();
                 fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fl,fragment);
                 fragmentTransaction.commit();
+                push_shared();
             }
         });
     }
 
     private void init_view(){
-        btn_home_modify = (Button)view.findViewById(R.id.btn_home_modify);
+        btn_home_save = (Button)view.findViewById(R.id.btn_home_save);
+
+        et_home_name = (EditText)view.findViewById(R.id.et_home_name);
+        et_home_infs = (EditText)view.findViewById(R.id.et_home_infs);
+        et_home_content = (EditText)view.findViewById(R.id.et_home_content);
 
         iv_profile = (ImageView)view.findViewById(R.id.iv_profile);
         iv_link1 = (ImageView)view.findViewById(R.id.iv_link1);
         iv_link2 = (ImageView)view.findViewById(R.id.iv_link2);
         iv_link3 = (ImageView)view.findViewById(R.id.iv_link3);
-
-        tv_home_name = (TextView)view.findViewById(R.id.tv_home_name);
-        tv_home_infs = (TextView)view.findViewById(R.id.tv_home_infs);
-        tv_home_content = (TextView)view.findViewById(R.id.tv_home_content);
     }
 
     private void setImage(){
@@ -209,9 +205,9 @@ public class HomeFragment extends Fragment {
     private void push_shared(){
         sharedPreferences = getActivity().getSharedPreferences("", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        name = tv_home_name.getText().toString();
-        infs = tv_home_infs.getText().toString();
-        content = tv_home_content.getText().toString();
+        name = et_home_name.getText().toString();
+        infs = et_home_infs.getText().toString();
+        content = et_home_content.getText().toString();
 
         editor.putString("home_name",name);
         editor.putString("home_infs",infs);
@@ -220,19 +216,14 @@ public class HomeFragment extends Fragment {
     }
 
     private void pop_shared(){
-        try {
+        sharedPreferences = getActivity().getSharedPreferences("", Context.MODE_PRIVATE);
 
-            sharedPreferences = getActivity().getSharedPreferences("", Context.MODE_PRIVATE);
+        name = sharedPreferences.getString("home_name",name);
+        infs = sharedPreferences.getString("home_infs",infs);
+        content = sharedPreferences.getString("home_content",content);
 
-            name = sharedPreferences.getString("home_name", name);
-            infs = sharedPreferences.getString("home_infs", infs);
-            content = sharedPreferences.getString("home_content", content);
-
-            tv_home_name.setText(name);
-            tv_home_infs.setText(infs);
-            tv_home_content.setText(content);
-        }catch (Exception e){
-            tv_home_name.setText(e.getMessage());
-        }
+        et_home_name.setText(name);
+        et_home_infs.setText(infs);
+        et_home_content.setText(content);
     }
 }

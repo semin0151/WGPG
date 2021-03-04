@@ -25,6 +25,14 @@ public class ResumeFragment extends Fragment {
     private View view;
     private Button btn_modify;
 
+    private RecyclerView rv_activity;
+    private RecyclerView rv_award;
+    private RecyclerView rv_skill;
+
+    private RecyclerActivityAdapter adapter_activity;
+    private RecyclerAwardAdapter adapter_award;
+    private RecyclerSkillAdapter adapter_skill;
+
     private TextView tv_name_resume;
     private TextView tv_date_resume;
     private TextView tv_address1_resume;
@@ -34,14 +42,6 @@ public class ResumeFragment extends Fragment {
     private Fragment fragment;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
-
-    private RecyclerView rv_activity;
-    private RecyclerView rv_award;
-    private RecyclerView rv_skill;
-
-    private RecyclerActivityAdapter adapter_activity;
-    private RecyclerAwardAdapter adapter_award;
-    private RecyclerSkillAdapter adapter_skill;
 
     private SQLiteDatabase sqliteDB;
     private SharedPreferences sharedPreferences;
@@ -57,23 +57,13 @@ public class ResumeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_resume,container, false);
 
-        btn_modify      = (Button)view.findViewById(R.id.btn_modify);
-        rv_activity     = (RecyclerView)view.findViewById(R.id.rv_activity);
-        rv_award        = (RecyclerView)view.findViewById(R.id.rv_award);
-        rv_skill        = (RecyclerView)view.findViewById(R.id.rv_skill);
-        tv_name_resume  = (TextView)view.findViewById(R.id.tv_name_resume);
-        tv_date_resume  = (TextView)view.findViewById(R.id.tv_date_resume);
-        tv_address1_resume = (TextView)view.findViewById(R.id.tv_address1_resume);
-        tv_address2_resume = (TextView)view.findViewById(R.id.tv_address2_resume);
-        tv_phone_resume = (TextView)view.findViewById(R.id.tv_phone_resume);
-
+        init_view();
         sqliteDB = init_DB();
 
         btn_clicked();
         init_tables();
         init_rv();
         load_values();
-
         pop_shared();
 
         return view;
@@ -96,6 +86,20 @@ public class ResumeFragment extends Fragment {
                 fragmentTransaction.commit();
             }
         });
+    }
+
+    private void init_view(){
+        btn_modify      = (Button)view.findViewById(R.id.btn_modify);
+
+        rv_activity     = (RecyclerView)view.findViewById(R.id.rv_activity);
+        rv_award        = (RecyclerView)view.findViewById(R.id.rv_award);
+        rv_skill        = (RecyclerView)view.findViewById(R.id.rv_skill);
+
+        tv_name_resume  = (TextView)view.findViewById(R.id.tv_name_resume);
+        tv_date_resume  = (TextView)view.findViewById(R.id.tv_date_resume);
+        tv_address1_resume = (TextView)view.findViewById(R.id.tv_address1_resume);
+        tv_address2_resume = (TextView)view.findViewById(R.id.tv_address2_resume);
+        tv_phone_resume = (TextView)view.findViewById(R.id.tv_phone_resume);
     }
 
     private SQLiteDatabase init_DB(){
@@ -192,22 +196,22 @@ public class ResumeFragment extends Fragment {
         address2 = tv_address2_resume.getText().toString();
         phone = tv_phone_resume.getText().toString();
 
-        editor.putString("name",name);
-        editor.putString("date",date);
-        editor.putString("address1",address1);
-        editor.putString("address2",address2);
-        editor.putString("phone",phone);
+        editor.putString("resume_name",name);
+        editor.putString("resume_date",date);
+        editor.putString("resume_address1",address1);
+        editor.putString("resume_address2",address2);
+        editor.putString("resume_phone",phone);
         editor.commit();
     }
 
     private void pop_shared(){
         sharedPreferences = getActivity().getSharedPreferences("", Context.MODE_PRIVATE);
 
-        name = sharedPreferences.getString("name",name);
-        date = sharedPreferences.getString("date",date);
-        address1 = sharedPreferences.getString("address1",address1);
-        address2 = sharedPreferences.getString("address2",address2);
-        phone = sharedPreferences.getString("phone",phone);
+        name = sharedPreferences.getString("resume_name",name);
+        date = sharedPreferences.getString("resume_date",date);
+        address1 = sharedPreferences.getString("resume_address1",address1);
+        address2 = sharedPreferences.getString("resume_address2",address2);
+        phone = sharedPreferences.getString("resume_phone",phone);
 
         tv_name_resume.setText(name);
         tv_date_resume.setText(date);

@@ -13,10 +13,10 @@
         android:layout_alignParentTop="true"
         android:layout_margin="30dp"/>
     <Button
-        android:id="@+id/btn_home_modify"
+        android:id="@+id/btn_home_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="수정"
+        android:text="저장"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
@@ -48,37 +48,39 @@
         android:layout_alignBottom="@id/iv_profile"
         android:layout_marginLeft="10dp"/>
 
-    <TextView
-        android:id="@+id/tv_home_name"
+    <EditText
+        android:id="@+id/et_home_name"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:text="이름"
+        android:hint="이름"
+        android:background="#eeeeee"
         android:textSize="20dp"
-        android:textStyle="bold"
         android:layout_marginLeft="10dp"
         android:layout_below="@id/iv_profile"/>
 
-    <TextView
-        android:id="@+id/tv_home_infs"
+    <EditText
+        android:id="@+id/et_home_infs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="소속"
-        android:textStyle="bold"
+        android:hint="소속"
+        android:background="#eeeeee"
         android:layout_margin="10dp"
-        android:layout_below="@id/tv_home_name"/>
+        android:layout_below="@id/et_home_name"/>
 
     <ImageView
         android:id="@+id/iv_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#aaaaaa"
-        android:layout_below="@id/tv_home_infs" />
+        android:layout_below="@id/et_home_infs" />
 
-    <TextView
-        android:id="@+id/tv_home_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="HI"
+    <EditText
+        android:id="@+id/et_home_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="자기소개"
+        android:gravity="left"
+        android:background="#eeeeee"
         android:layout_below="@id/iv_line"
         android:layout_margin="10dp"/>
 

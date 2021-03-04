@@ -33,7 +33,6 @@ public class ResumeModifyFragment extends Fragment {
     private EditText et_address1;
     private EditText et_address2;
     private EditText et_phone;
-
     private EditText et_activity_period;
     private EditText et_activity_category;
     private EditText et_activity_organ;
@@ -73,10 +72,6 @@ public class ResumeModifyFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_resume_modify,container, false);
 
-        rv_activity = (RecyclerView)view.findViewById(R.id.rv_activity);
-        rv_award = (RecyclerView)view.findViewById(R.id.rv_award);
-        rv_skill = (RecyclerView)view.findViewById(R.id.rv_skill);
-
         init_view();
         sqliteDB = init_DB();
 
@@ -85,7 +80,6 @@ public class ResumeModifyFragment extends Fragment {
         init_rv();
         save_values();
         load_values();
-
         pop_shared();
 
         return view;
@@ -115,6 +109,7 @@ public class ResumeModifyFragment extends Fragment {
         btn_add_activity        = (Button)view.findViewById(R.id.btn_add_activity);
         btn_add_award           = (Button)view.findViewById(R.id.btn_add_award);
         btn_add_skill           = (Button)view.findViewById(R.id.btn_add_skill);
+
         et_activity_period      = (EditText)view.findViewById(R.id.et_activity_period);
         et_activity_category    = (EditText)view.findViewById(R.id.et_activity_category);
         et_activity_organ       = (EditText)view.findViewById(R.id.et_activity_organ);
@@ -132,6 +127,10 @@ public class ResumeModifyFragment extends Fragment {
         et_address1             = (EditText)view.findViewById(R.id.et_address1);
         et_address2             = (EditText)view.findViewById(R.id.et_address2);
         et_phone                = (EditText)view.findViewById(R.id.et_phone);
+
+        rv_activity = (RecyclerView)view.findViewById(R.id.rv_activity);
+        rv_award = (RecyclerView)view.findViewById(R.id.rv_award);
+        rv_skill = (RecyclerView)view.findViewById(R.id.rv_skill);
     }
 
     private SQLiteDatabase init_DB(){
@@ -289,22 +288,22 @@ public class ResumeModifyFragment extends Fragment {
         address2 = et_address2.getText().toString();
         phone = et_phone.getText().toString();
 
-        editor.putString("name",name);
-        editor.putString("date",date);
-        editor.putString("address1",address1);
-        editor.putString("address2",address2);
-        editor.putString("phone",phone);
+        editor.putString("resume_name",name);
+        editor.putString("resume_date",date);
+        editor.putString("resume_address1",address1);
+        editor.putString("resume_address2",address2);
+        editor.putString("resume_phone",phone);
         editor.commit();
     }
 
     private void pop_shared(){
         sharedPreferences = getActivity().getSharedPreferences("", Context.MODE_PRIVATE);
 
-        name = sharedPreferences.getString("name",name);
-        date = sharedPreferences.getString("date",date);
-        address1 = sharedPreferences.getString("address1",address1);
-        address2 = sharedPreferences.getString("address2",address2);
-        phone = sharedPreferences.getString("phone",phone);
+        name = sharedPreferences.getString("resume_name",name);
+        date = sharedPreferences.getString("resume_date",date);
+        address1 = sharedPreferences.getString("resume_address1",address1);
+        address2 = sharedPreferences.getString("resume_address2",address2);
+        phone = sharedPreferences.getString("resume_phone",phone);
 
         et_name.setText(name);
         et_date.setText(date);

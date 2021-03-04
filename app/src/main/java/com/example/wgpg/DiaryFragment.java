@@ -58,6 +58,7 @@ public class DiaryFragment extends Fragment {
                 fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fl,fragment);
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
         });
@@ -93,7 +94,7 @@ public class DiaryFragment extends Fragment {
     private void init_rv(){
         rv_diary.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        adapter_diary = new RecyclerDiaryAdapter(sqliteDB);
+        adapter_diary = new RecyclerDiaryAdapter(sqliteDB,getActivity());
 
         rv_diary.setAdapter(adapter_diary);
     }

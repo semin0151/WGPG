@@ -49,9 +49,10 @@ public class DiaryAddFragment extends Fragment {
         et_diary_content = (EditText)view.findViewById(R.id.et_diary_content);
         tv_test = view.findViewById(R.id.tv_test);
 
-            sqliteDB = init_DB();
-            init_tables();
-            btn_clicked();
+        sqliteDB = init_DB();
+        init_tables();
+        btn_clicked();
+
 
         return view;
     }
@@ -67,7 +68,6 @@ public class DiaryAddFragment extends Fragment {
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fl,fragment);
                 fragmentTransaction.commit();
-
             }
         });
     }

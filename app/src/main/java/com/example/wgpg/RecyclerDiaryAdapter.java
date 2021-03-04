@@ -8,6 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -17,13 +21,18 @@ public class RecyclerDiaryAdapter extends RecyclerView.Adapter<RecyclerDiaryAdap
     private SQLiteDatabase sqliteDB;
     private boolean modify;
 
+    private Fragment fragment;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
+
     RecyclerDiaryAdapter(){
         modify = false;
     }
 
-    RecyclerDiaryAdapter(SQLiteDatabase db){
+    RecyclerDiaryAdapter(SQLiteDatabase db, FragmentActivity activity){
         modify = true;
         this.sqliteDB = db;
+        fragmentManager = activity.getSupportFragmentManager();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -59,20 +68,9 @@ public class RecyclerDiaryAdapter extends RecyclerView.Adapter<RecyclerDiaryAdap
         holder.tv_diary_title.setText(item.getTitle());
         holder.tv_diary_date.setText(item.getDate());
         holder.tv_diary_time.setText(item.getTime());
-        if(modify){
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    sqliteDB.execSQL("DELETE FROM DIARY WHERE TITLE = '" + lists.get(holder.getAdapterPosition()).getTitle() + "' " +
-                                    "AND CONTENT = '" + lists.get(holder.getAdapterPosition()).getContent() + "' " +
-                                    "AND DATE = '" + lists.get(holder.getAdapterPosition()).getDate() + "' " +
-                                    "AND TIME ='" + lists.get(holder.getAdapterPosition()).getTime() + "'");
 
-                    delItem(holder.getAdapterPosition());
-                    return true;
-                }
-            });
-        }
+        delItem(holder);
+        selItem(holder);
     }
 
     @Override
@@ -92,12 +90,37 @@ public class RecyclerDiaryAdapter extends RecyclerView.Adapter<RecyclerDiaryAdap
         lists.add(item);
     }
 
-    public void delItem(int position){
-        try{
-            lists.remove(position);
-            notifyItemRemoved(position);
-        }catch (Exception e){
-            e.printStackTrace();
+    private void delItem(ViewHolder holder){
+        if(modify){
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    sqliteDB.execSQL("DELETE FROM DIARY WHERE TITLE = '" + lists.get(holder.getAdapterPosition()).getTitle() + "' " +
+                            "AND CONTENT = '" + lists.get(holder.getAdapterPosition()).getContent() + "' " +
+                            "AND DATE = '" + lists.get(holder.getAdapterPosition()).getDate() + "' " +
+                            "AND TIME ='" + lists.get(holder.getAdapterPosition()).getTime() + "'");
+                    try{
+                        lists.remove(holder.getAdapterPosition());
+                        notifyItemRemoved(holder.getAdapterPosition());
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    return true;
+                }
+            });
         }
+    }
+
+    private void selItem(ViewHolder holder){
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragment = new DiaryShowFragment(lists.get(holder.getAdapterPosition()));
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fl,fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
     }
 }
