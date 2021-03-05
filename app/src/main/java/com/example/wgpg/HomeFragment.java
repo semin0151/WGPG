@@ -60,8 +60,8 @@ public class HomeFragment extends Fragment {
         init_view();
 
         btn_clicked();
-        setImage();
         pop_shared();
+        setImageview();
 
         return view;
     }
@@ -70,75 +70,6 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         push_shared();
-    }
-
-    private void btn_clicked(){
-        btn_home_modify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragment = new HomeModifyFragment();
-                fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fl,fragment);
-                fragmentTransaction.commit();
-            }
-        });
-    }
-
-    private void init_view(){
-        btn_home_modify = (Button)view.findViewById(R.id.btn_home_modify);
-
-        iv_profile = (ImageView)view.findViewById(R.id.iv_profile);
-        iv_link1 = (ImageView)view.findViewById(R.id.iv_link1);
-        iv_link2 = (ImageView)view.findViewById(R.id.iv_link2);
-        iv_link3 = (ImageView)view.findViewById(R.id.iv_link3);
-
-        tv_home_name = (TextView)view.findViewById(R.id.tv_home_name);
-        tv_home_infs = (TextView)view.findViewById(R.id.tv_home_infs);
-        tv_home_content = (TextView)view.findViewById(R.id.tv_home_content);
-    }
-
-    private void setImage(){
-        iv_profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                profile = true;
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent,0);
-            }
-        });
-        iv_link1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                link1 = true;
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent,0);
-            }
-        });
-        iv_link2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                link2 = true;
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent,0);
-            }
-        });
-        iv_link3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                link3 = true;
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent,0);
-            }
-        });
     }
 
     @Override
@@ -168,6 +99,44 @@ public class HomeFragment extends Fragment {
             } catch (Exception e) {
 
             }
+        }
+    }
+
+    private void btn_clicked(){
+        btn_home_modify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragment = new HomeModifyFragment();
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fl,fragment);
+                fragmentTransaction.commit();
+            }
+        });
+    }
+
+    private void init_view(){
+        btn_home_modify = (Button)view.findViewById(R.id.btn_home_modify);
+
+        iv_profile = (ImageView)view.findViewById(R.id.iv_profile);
+        iv_link1 = (ImageView)view.findViewById(R.id.iv_link1);
+        iv_link2 = (ImageView)view.findViewById(R.id.iv_link2);
+        iv_link3 = (ImageView)view.findViewById(R.id.iv_link3);
+
+        tv_home_name = (TextView)view.findViewById(R.id.tv_home_name);
+        tv_home_infs = (TextView)view.findViewById(R.id.tv_home_infs);
+        tv_home_content = (TextView)view.findViewById(R.id.tv_home_content);
+    }
+
+    private void setImageview(){
+        try {
+            Bitmap bitmap = BitmapFactory.decodeFile(getActivity().getFilesDir().toString() + "/home_profile.jpg");
+            bitmap = getBitmapSquareCrop(bitmap, bitmap.getWidth(), bitmap.getHeight());
+            bitmap = getBitmapCircleCrop(bitmap, bitmap.getWidth(), bitmap.getHeight());
+            iv_profile.setImageBitmap(bitmap);
+        }
+        catch (Exception e){
+
         }
     }
 

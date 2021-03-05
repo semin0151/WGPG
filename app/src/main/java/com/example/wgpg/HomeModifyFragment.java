@@ -24,6 +24,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 
 public class HomeModifyFragment extends Fragment {
@@ -46,8 +48,9 @@ public class HomeModifyFragment extends Fragment {
 
     private SharedPreferences sharedPreferences;
 
+    private Bitmap save;
+
     private String name, infs, content;
-    private boolean profile = false, link1 = false, link2 = false, link3 = false;
 
     public HomeModifyFragment() {
 
@@ -61,10 +64,30 @@ public class HomeModifyFragment extends Fragment {
         init_view();
 
         btn_clicked();
-        setImage();
+        set_imagefile();
         pop_shared();
+        set_imageview();
+
 
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == getActivity().RESULT_CANCELED) {
+            try {
+                InputStream in = getActivity().getContentResolver().openInputStream(data.getData());
+                Bitmap bitmap = BitmapFactory.decodeStream(in);
+                save = bitmap;
+                in.close();
+                bitmap = getBitmapSquareCrop(bitmap, bitmap.getWidth(), bitmap.getHeight());
+                bitmap = getBitmapCircleCrop(bitmap, bitmap.getWidth(), bitmap.getHeight());
+                iv_profile.setImageBitmap(bitmap);
+
+            } catch (Exception e) {
+
+            }
+        }
     }
 
     private void btn_clicked(){
@@ -77,6 +100,7 @@ public class HomeModifyFragment extends Fragment {
                 fragmentTransaction.replace(R.id.fl,fragment);
                 fragmentTransaction.commit();
                 push_shared();
+                save_imagefile();
             }
         });
     }
@@ -94,41 +118,10 @@ public class HomeModifyFragment extends Fragment {
         iv_link3 = (ImageView)view.findViewById(R.id.iv_link3);
     }
 
-    private void setImage(){
+    private void set_imagefile(){
         iv_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                profile = true;
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent,0);
-            }
-        });
-        iv_link1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                link1 = true;
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent,0);
-            }
-        });
-        iv_link2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                link2 = true;
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent,0);
-            }
-        });
-        iv_link3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                link3 = true;
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -137,33 +130,28 @@ public class HomeModifyFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == getActivity().RESULT_CANCELED) {
-            try {
-                InputStream in = getActivity().getContentResolver().openInputStream(data.getData());
-                Bitmap bitmap = BitmapFactory.decodeStream(in);
+    private void save_imagefile(){
+        try {
+            File file_profile = new File(getActivity().getFilesDir(), "home_profile.jpg");
+            file_profile.createNewFile();
+            FileOutputStream out = new FileOutputStream(file_profile);
+            save.compress(Bitmap.CompressFormat.JPEG,100,out);
+            out.close();
+        }
+        catch (Exception e){
 
-                bitmap = getBitmapSquareCrop(bitmap, bitmap.getWidth(), bitmap.getHeight());
-                bitmap = getBitmapCircleCrop(bitmap, bitmap.getWidth(), bitmap.getHeight());
-                in.close();
+        }
+    }
 
-                if(profile) {
-                    iv_profile.setImageBitmap(bitmap);
-                    profile = false;
-                }else if(link1){
-                    iv_link1.setImageBitmap(bitmap);
-                    link1 = false;
-                }else if(link2){
-                    iv_link2.setImageBitmap(bitmap);
-                    link2 = false;
-                }else if(link3){
-                    iv_link3.setImageBitmap(bitmap);
-                    link3 = false;
-                }
-            } catch (Exception e) {
+    private void set_imageview(){
+        try {
+            Bitmap bitmap = BitmapFactory.decodeFile(getActivity().getFilesDir().toString() + "/home_profile.jpg");
+            bitmap = getBitmapSquareCrop(bitmap, bitmap.getWidth(), bitmap.getHeight());
+            bitmap = getBitmapCircleCrop(bitmap, bitmap.getWidth(), bitmap.getHeight());
+            iv_profile.setImageBitmap(bitmap);
+        }
+        catch (Exception e){
 
-            }
         }
     }
 
