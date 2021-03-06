@@ -51,6 +51,7 @@ public class HomeModifyFragment extends Fragment {
     private Bitmap save;
 
     private String name, infs, content;
+    private boolean changed = false;
 
     public HomeModifyFragment() {
 
@@ -79,6 +80,7 @@ public class HomeModifyFragment extends Fragment {
                 InputStream in = getActivity().getContentResolver().openInputStream(data.getData());
                 Bitmap bitmap = BitmapFactory.decodeStream(in);
                 save = bitmap;
+                changed = true;
                 in.close();
                 bitmap = getBitmapSquareCrop(bitmap, bitmap.getWidth(), bitmap.getHeight());
                 bitmap = getBitmapCircleCrop(bitmap, bitmap.getWidth(), bitmap.getHeight());
@@ -100,7 +102,7 @@ public class HomeModifyFragment extends Fragment {
                 fragmentTransaction.replace(R.id.fl,fragment);
                 fragmentTransaction.commit();
                 push_shared();
-                save_imagefile();
+                if(changed) save_imagefile();
             }
         });
     }
@@ -146,9 +148,15 @@ public class HomeModifyFragment extends Fragment {
     private void set_imageview(){
         try {
             Bitmap bitmap = BitmapFactory.decodeFile(getActivity().getFilesDir().toString() + "/home_profile.jpg");
+            Bitmap link = BitmapFactory.decodeResource(getResources(),R.drawable.home_link);
             bitmap = getBitmapSquareCrop(bitmap, bitmap.getWidth(), bitmap.getHeight());
             bitmap = getBitmapCircleCrop(bitmap, bitmap.getWidth(), bitmap.getHeight());
+            link = getBitmapSquareCrop(link, link.getWidth(), link.getHeight());
+            link = getBitmapCircleCrop(link, link.getWidth(), link.getHeight());
             iv_profile.setImageBitmap(bitmap);
+            iv_link1.setImageBitmap(link);
+            iv_link2.setImageBitmap(link);
+            iv_link3.setImageBitmap(link);
         }
         catch (Exception e){
 

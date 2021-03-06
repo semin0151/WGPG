@@ -62,6 +62,17 @@ public class HomeFragment extends Fragment {
         btn_clicked();
         pop_shared();
         setImageview();
+        iv_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragment = new HomeShowProfileFragment();
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fl,fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
 
         return view;
     }
@@ -131,9 +142,15 @@ public class HomeFragment extends Fragment {
     private void setImageview(){
         try {
             Bitmap bitmap = BitmapFactory.decodeFile(getActivity().getFilesDir().toString() + "/home_profile.jpg");
+            Bitmap link = BitmapFactory.decodeResource(getResources(),R.drawable.home_link);
             bitmap = getBitmapSquareCrop(bitmap, bitmap.getWidth(), bitmap.getHeight());
             bitmap = getBitmapCircleCrop(bitmap, bitmap.getWidth(), bitmap.getHeight());
+            link = getBitmapSquareCrop(link, link.getWidth(), link.getHeight());
+            link = getBitmapCircleCrop(link, link.getWidth(), link.getHeight());
             iv_profile.setImageBitmap(bitmap);
+            iv_link1.setImageBitmap(link);
+            iv_link2.setImageBitmap(link);
+            iv_link3.setImageBitmap(link);
         }
         catch (Exception e){
 
