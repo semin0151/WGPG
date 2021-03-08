@@ -91,7 +91,7 @@ public class ResumeModifyFragment extends Fragment {
         push_shared();
     }
 
-    public void btn_clicked(){
+    private void btn_clicked(){
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

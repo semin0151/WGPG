@@ -25,8 +25,7 @@ public class MemoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_memo, container,false);
-        et_memo = (EditText)view.findViewById(R.id.et_memo);
-
+        init_view();
         pop_shared();
         return view;
     }
@@ -35,6 +34,10 @@ public class MemoFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         push_shared();
+    }
+
+    private void init_view(){
+        et_memo = (EditText)view.findViewById(R.id.et_memo);
     }
 
     private void push_shared(){

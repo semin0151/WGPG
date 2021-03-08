@@ -65,10 +65,10 @@ public class HomeModifyFragment extends Fragment {
         init_view();
 
         btn_clicked();
-        set_imagefile();
+        set_profile();
+        set_link();
         pop_shared();
         set_imageview();
-
 
         return view;
     }
@@ -120,7 +120,7 @@ public class HomeModifyFragment extends Fragment {
         iv_link3 = (ImageView)view.findViewById(R.id.iv_link3);
     }
 
-    private void set_imagefile(){
+    private void set_profile(){
         iv_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,6 +128,30 @@ public class HomeModifyFragment extends Fragment {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(intent,0);
+            }
+        });
+    }
+
+    private void set_link(){
+        iv_link1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HomeModifyLinkDialog homeModifyLinkDialog = new HomeModifyLinkDialog(1);
+                homeModifyLinkDialog.show(getActivity().getSupportFragmentManager(),"dialog");
+            }
+        });
+        iv_link2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HomeModifyLinkDialog homeModifyLinkDialog = new HomeModifyLinkDialog(2);
+                homeModifyLinkDialog.show(getActivity().getSupportFragmentManager(),"dialog");
+            }
+        });
+        iv_link3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HomeModifyLinkDialog homeModifyLinkDialog = new HomeModifyLinkDialog(3);
+                homeModifyLinkDialog.show(getActivity().getSupportFragmentManager(),"dialog");
             }
         });
     }
@@ -163,7 +187,7 @@ public class HomeModifyFragment extends Fragment {
         }
     }
 
-    public static Bitmap getBitmapCircleCrop(Bitmap bitmap, int Width, int Height) {
+    private static Bitmap getBitmapCircleCrop(Bitmap bitmap, int Width, int Height) {
 
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
                 bitmap.getHeight(), Bitmap.Config.ARGB_8888);
@@ -186,7 +210,7 @@ public class HomeModifyFragment extends Fragment {
         return CroppedBitmap;
     }
 
-    public static Bitmap getBitmapSquareCrop(Bitmap bitmap, int Width, int Height){
+    private static Bitmap getBitmapSquareCrop(Bitmap bitmap, int Width, int Height){
         Bitmap CroppedBitmap;
         if(bitmap.getWidth()<bitmap.getHeight())
             CroppedBitmap = Bitmap.createBitmap(bitmap,0,(Height-Width)/2,bitmap.getWidth(),bitmap.getWidth());

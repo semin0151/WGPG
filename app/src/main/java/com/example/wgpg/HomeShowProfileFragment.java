@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -26,7 +27,6 @@ public class HomeShowProfileFragment extends Fragment {
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
 
-
     public HomeShowProfileFragment(){
 
     }
@@ -35,12 +35,19 @@ public class HomeShowProfileFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home_show_profile, container,false);
+        init_view();
+        set_imageview();
+        btn_clicked();
+
+        return view;
+    }
+
+    private void init_view(){
         btn_home_back_profile = (Button)view.findViewById(R.id.btn_home_back_profile);
         iv_home_large_profile = (ImageView)view.findViewById(R.id.iv_home_large_profile);
+    }
 
-        Bitmap bitmap = BitmapFactory.decodeFile(getActivity().getFilesDir().toString() + "/home_profile.jpg");
-        iv_home_large_profile.setImageBitmap(bitmap);
-
+    private void btn_clicked(){
         btn_home_back_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,7 +58,10 @@ public class HomeShowProfileFragment extends Fragment {
                 fragmentTransaction.commit();
             }
         });
+    }
 
-        return view;
+    private void set_imageview(){
+        Bitmap bitmap = BitmapFactory.decodeFile(getActivity().getFilesDir().toString() + "/home_profile.jpg");
+        iv_home_large_profile.setImageBitmap(bitmap);
     }
 }

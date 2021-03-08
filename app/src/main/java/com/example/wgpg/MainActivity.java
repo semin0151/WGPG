@@ -19,10 +19,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        init_view();
+        btn_clicked();
+    }
+
+    private void init_view(){
         et_id = (EditText)findViewById(R.id.et_id);
         et_pw = (EditText)findViewById(R.id.et_pw);
         btn_login = (Button)findViewById(R.id.btn_login);
+    }
 
+    private void btn_clicked(){
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -46,7 +46,6 @@ public class HomeFragment extends Fragment {
     private SharedPreferences sharedPreferences;
 
     private String name = "", infs = "", content = "";
-    private boolean profile = false, link1 = false, link2 = false, link3 = false;
 
     public HomeFragment() {
 
@@ -62,17 +61,8 @@ public class HomeFragment extends Fragment {
         btn_clicked();
         pop_shared();
         setImageview();
-        iv_profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragment = new HomeShowProfileFragment();
-                fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fl,fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
+        set_profile();
+        set_link();
 
         return view;
     }
@@ -81,49 +71,6 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         push_shared();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == getActivity().RESULT_CANCELED) {
-            try {
-                InputStream in = getActivity().getContentResolver().openInputStream(data.getData());
-                Bitmap bitmap = BitmapFactory.decodeStream(in);
-
-                bitmap = getBitmapSquareCrop(bitmap, bitmap.getWidth(), bitmap.getHeight());
-                bitmap = getBitmapCircleCrop(bitmap, bitmap.getWidth(), bitmap.getHeight());
-                in.close();
-
-                if(profile) {
-                    iv_profile.setImageBitmap(bitmap);
-                    profile = false;
-                }else if(link1){
-                    iv_link1.setImageBitmap(bitmap);
-                    link1 = false;
-                }else if(link2){
-                    iv_link2.setImageBitmap(bitmap);
-                    link2 = false;
-                }else if(link3){
-                    iv_link3.setImageBitmap(bitmap);
-                    link3 = false;
-                }
-            } catch (Exception e) {
-
-            }
-        }
-    }
-
-    private void btn_clicked(){
-        btn_home_modify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragment = new HomeModifyFragment();
-                fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fl,fragment);
-                fragmentTransaction.commit();
-            }
-        });
     }
 
     private void init_view(){
@@ -137,6 +84,69 @@ public class HomeFragment extends Fragment {
         tv_home_name = (TextView)view.findViewById(R.id.tv_home_name);
         tv_home_infs = (TextView)view.findViewById(R.id.tv_home_infs);
         tv_home_content = (TextView)view.findViewById(R.id.tv_home_content);
+    }
+
+    private void set_profile(){
+        iv_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragment = new HomeShowProfileFragment();
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fl,fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+    }
+
+    private void set_link(){
+        iv_link1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragment = new HomeShowLinkFragment(0);
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fl,fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+        iv_link2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragment = new HomeShowLinkFragment(1);
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fl,fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+        iv_link3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragment = new HomeShowLinkFragment(2);
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fl,fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+    }
+
+    private void btn_clicked(){
+        btn_home_modify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragment = new HomeModifyFragment();
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fl,fragment);
+                fragmentTransaction.commit();
+            }
+        });
     }
 
     private void setImageview(){
@@ -157,7 +167,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    public static Bitmap getBitmapCircleCrop(Bitmap bitmap, int Width, int Height) {
+    private static Bitmap getBitmapCircleCrop(Bitmap bitmap, int Width, int Height) {
 
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
                 bitmap.getHeight(), Bitmap.Config.ARGB_8888);
@@ -180,7 +190,7 @@ public class HomeFragment extends Fragment {
         return CroppedBitmap;
     }
 
-    public static Bitmap getBitmapSquareCrop(Bitmap bitmap, int Width, int Height){
+    private static Bitmap getBitmapSquareCrop(Bitmap bitmap, int Width, int Height){
         Bitmap CroppedBitmap;
         if(bitmap.getWidth()<bitmap.getHeight())
             CroppedBitmap = Bitmap.createBitmap(bitmap,0,(Height-Width)/2,bitmap.getWidth(),bitmap.getWidth());

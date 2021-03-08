@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,14 +27,13 @@ public class DiaryAddFragment extends Fragment {
     private EditText et_diary_title;
     private EditText et_diary_content;
 
-    private TextView tv_test;
-
     private Fragment fragment;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private String strDate, strTime;
 
     private SQLiteDatabase sqliteDB;
+
     DiaryAddFragment(){
         strDate = new SimpleDateFormat("yyyy.MM.dd").format(new Date(System.currentTimeMillis()));
         strTime = new SimpleDateFormat("HH:mm").format(new Date(System.currentTimeMillis()));
@@ -43,21 +43,24 @@ public class DiaryAddFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_diary_add, container, false);
-        btn_diary_save = (Button)view.findViewById(R.id.btn_diary_save);
-        et_diary_category = (EditText)view.findViewById(R.id.et_diary_category);
-        et_diary_title = (EditText)view.findViewById(R.id.et_diary_title);
-        et_diary_content = (EditText)view.findViewById(R.id.et_diary_content);
-        tv_test = view.findViewById(R.id.tv_test);
+
+        init_view();
 
         sqliteDB = init_DB();
         init_tables();
         btn_clicked();
 
-
         return view;
     }
 
-    public void btn_clicked(){
+    private void init_view(){
+        btn_diary_save = (Button)view.findViewById(R.id.btn_diary_save);
+        et_diary_category = (EditText)view.findViewById(R.id.et_diary_category);
+        et_diary_title = (EditText)view.findViewById(R.id.et_diary_title);
+        et_diary_content = (EditText)view.findViewById(R.id.et_diary_content);
+    }
+
+    private void btn_clicked(){
         btn_diary_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +85,6 @@ public class DiaryAddFragment extends Fragment {
         catch (Exception e){
             e.printStackTrace();
         }
-
         return db;
     }
 
@@ -110,8 +112,7 @@ public class DiaryAddFragment extends Fragment {
                     "'" + strTime + "'" + ")";
             sqliteDB.execSQL(sqlInsert);
         }catch (Exception e){
-            tv_test.setText(e.getMessage());
-        }
 
+        }
     }
 }

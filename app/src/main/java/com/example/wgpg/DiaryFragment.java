@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,8 +40,7 @@ public class DiaryFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_diary, container, false);
-        rv_diary = (RecyclerView)view.findViewById(R.id.rv_diary);
-        btn_diary_new = (Button)view.findViewById(R.id.btn_diary_new);
+        init_view();
         sqliteDB = init_DB();
 
         btn_clicked();
@@ -50,7 +50,12 @@ public class DiaryFragment extends Fragment {
         return view;
     }
 
-    public void btn_clicked(){
+    private void init_view(){
+        rv_diary = (RecyclerView)view.findViewById(R.id.rv_diary);
+        btn_diary_new = (Button)view.findViewById(R.id.btn_diary_new);
+    }
+
+    private void btn_clicked(){
         btn_diary_new.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
